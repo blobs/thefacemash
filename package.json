@@ -1,0 +1,30 @@
+{
+  "name": "thefacemash",
+  "version": "0.0.0",
+  "description": "thefacemash ===========",
+  "main": "index.js",
+  "dependencies": {
+    "grunt": "~0.4.4",
+    "grunt-contrib-coffee": "~0.10.1",
+    "restify": "^2.6.3"
+  },
+  "devDependencies": {
+    "grunt-contrib-coffee": "^0.10.1",
+    "grunt": "^0.4.4",
+    "grunt-newer": "^0.7.0",
+    "grunt-contrib-watch": "^0.6.1"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/blobs/thefacemash.git"
+  },
+  "author": "Nickolay Sukhanov",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/blobs/thefacemash/issues"
+  },
+  "homepage": "https://github.com/blobs/thefacemash"
+}
