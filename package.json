@@ -6,7 +6,9 @@
   "dependencies": {
     "grunt": "~0.4.4",
     "grunt-contrib-coffee": "~0.10.1",
-    "restify": "^2.6.3"
+    "restify": "^2.6.3",
+    "redis": "^0.10.1",
+    "hiredis": "^0.1.16"
   },
   "devDependencies": {
     "grunt-contrib-coffee": "^0.10.1",
