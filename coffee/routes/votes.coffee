@@ -4,8 +4,13 @@ getRandomToken = () ->
     .randomBytes(3)
     .toString('hex')
 
-module.exports = (server) ->
+calculateHash = (data) ->
+  require('crypto')
+    .createHash('sha1')
+    .update(data.token + data.first.toString() + data.second.toString())
+    .digest('hex')
 
+module.exports = (server) ->
 
   recalculateRating = (firstId, secondId, firstWin, callback) ->
     first = {}
@@ -38,24 +43,28 @@ module.exports = (server) ->
 
   server.get '/battle', (req, res, next) ->
     answer =
-      token: getRandomToken()
-    server.client.zadd 'tokens', Date.now() + 1000 * 60,  answer.token
+      token: getRandomToken(),
+      first: 0,
+      second: 0,
+      sign: 0
     server.client.srandmember 'people', 2, (err, data) ->
       answer.first = data[0]
       answer.second = data[1]
+      server.client.zadd 'tokens', Date.now() + 1000 * 60,  answer.sign = calculateHash(answer)
       res.send answer
       next()
 
   server.get '/battle/:id', (req, res, next) ->
     server.client.multi()
       .zremrangebyscore('tokens', 0, Date.now())
-      .zscore('tokens', req.params.token, (err, data) ->
+      .zscore('tokens', req.params.sign, (err, data) ->
         next.ifError err
         if not data
           next new server.restify.ForbiddenError 'token invalid'
-        else
-          server.client.zrem 'tokens', req.params.token
-          recalculateRating(7860153, 11138883, true, () ->)
+        else if req.params.sign == calculateHash(req.param)
+          server.client.zrem 'tokens', req.params.sing
+          console.log(req.params)
+          recalculateRating(req.params.first, req.params.second, req.params.firstWin, () ->)
           res.send 'ok'
           next()
       )
